@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Class implementing a modified genetic algorithm
+/// 实现修改遗传算法的类
 /// </summary>
 public class GeneticAlgorithm
 {
@@ -15,28 +16,34 @@ public class GeneticAlgorithm
     #region Default Parameters
     /// <summary>
     /// Default min value of inital population parameters.
+    /// 默认的最小值的人口参数。
     /// </summary>
     public const float DefInitParamMin = -1.0f;
     /// <summary>
     /// Default max value of initial population parameters.
+    /// 初始人口参数的缺省最大值。
     /// </summary>
     public const float DefInitParamMax = 1.0f;
 
     /// <summary>
     /// Default probability of a parameter being swapped during crossover.
+    /// 在交叉过程中交换参数的默认概率。
     /// </summary>
     public const float DefCrossSwapProb = 0.6f;
 
     /// <summary>
     /// Default probability of a parameter being mutated.
+    /// 一个参数被突变的默认概率。
     /// </summary>
     public const float DefMutationProb = 0.3f;
     /// <summary>
     /// Default amount by which parameters may be mutated.
+    /// 缺省数量的参数可能会发生突变。
     /// </summary>
     public const float DefMutationAmount = 2.0f;
     /// <summary>
     /// Default percent of genotypes in a new population that are mutated.
+    /// 在新种群中，基因型的默认比例是变异的。
     /// </summary>
     public const float DefMutationPerc = 1.0f;
     #endregion
@@ -44,38 +51,45 @@ public class GeneticAlgorithm
     #region Operator Delegates
     /// <summary>
     /// Method template for methods used to initialise the initial population.
+    /// 用于初始化初始人口的方法的方法模板。
     /// </summary>
     /// <param name="initialPopulation">The population to be initialised.</param>
     public delegate void InitialisationOperator(IEnumerable<Genotype> initialPopulation);
     /// <summary>
     /// Method template for methods used to evaluate (or start the evluation process of) the current population.
+    /// 用于评估(或启动对当前人口的evluation进程)的方法的方法模板
     /// </summary>
     /// <param name="currentPopulation">The current population.</param>
     public delegate void EvaluationOperator(IEnumerable<Genotype> currentPopulation);
     /// <summary>
     /// Method template for methods used to calculate the fitness value of each genotype of the current population.
+    /// 方法模板用于计算当前种群的每个基因型的适合度值
     /// </summary>
     /// <param name="currentPopulation"></param>
     public delegate void FitnessCalculation(IEnumerable<Genotype> currentPopulation);
     /// <summary>
     /// Method template for methods used to select genotypes of the current population and create the intermediate population.
+    /// 方法模板用于选择当前种群的基因型，并创建中间种群。
     /// </summary>
     /// <param name="currentPopulation">The current population,</param>
     /// <returns>The intermediate population.</returns>
     public delegate List<Genotype> SelectionOperator(List<Genotype> currentPopulation);
     /// <summary>
     /// Method template for methods used to recombine the intermediate population to generate a new population.
+    /// 方法模板用于重新组合中间人群以生成新的人口。
     /// </summary>
     /// <param name="intermediatePopulation">The intermediate population.</param>
     /// <returns>The new population.</returns>
     public delegate List<Genotype> RecombinationOperator(List<Genotype> intermediatePopulation, uint newPopulationSize);
     /// <summary>
     /// Method template for methods used to mutate the new population.
+    /// 用于改变新种群的方法的方法模板。
     /// </summary>
     /// <param name="newPopulation">The mutated new population.</param>
     public delegate void MutationOperator(List<Genotype> newPopulation);
     /// <summary>
     /// Method template for method used to check whether any termination criterion has been met.
+    /// 用于检查是否满足终止条件的方法的方法模板。
     /// </summary>
     /// <param name="currentPopulation">The current population.</param>
     /// <returns>Whether the algorithm shall be terminated.</returns>
@@ -85,30 +99,37 @@ public class GeneticAlgorithm
     #region Operator Methods
     /// <summary>
     /// Method used to initialise the initial population.
+    /// 用来初始化初始种群的方法
     /// </summary>
     public InitialisationOperator InitialisePopulation = DefaultPopulationInitialisation;
     /// <summary>
     /// Method used to evaluate (or start the evaluation process of) the current population.
+    /// 方法用于评估(或启动评估过程)当前人口。
     /// </summary>
     public EvaluationOperator Evaluation = AsyncEvaluation;
     /// <summary>
     /// Method used to calculate the fitness value of each genotype of the current population.
+    /// 方法用于计算当前种群的每个基因型的适合度值。
     /// </summary>
     public FitnessCalculation FitnessCalculationMethod = DefaultFitnessCalculation;
     /// <summary>
     /// Method used to select genotypes of the current population and create the intermediate population.
+    /// 方法用于选择当前种群的基因型，并创造中间种群。
     /// </summary>
     public SelectionOperator Selection = DefaultSelectionOperator;
     /// <summary>
     /// Method used to recombine the intermediate population to generate a new population.
+    /// 方法用于重新组合中间人群以产生新的人口。
     /// </summary>
     public RecombinationOperator Recombination = DefaultRecombinationOperator;
     /// <summary>
     /// Method used to mutate the new population.
+    /// 方法用于变异新种群。
     /// </summary>
     public MutationOperator Mutation = DefaultMutationOperator;
     /// <summary>
     /// Method used to check whether any termination criterion has been met.
+    /// 方法用于检查是否满足了任何终止条件。
     /// </summary>
     public CheckTerminationCriterion TerminationCriterion = null;
     #endregion
@@ -119,6 +140,7 @@ public class GeneticAlgorithm
 
     /// <summary>
     /// The amount of genotypes in a population.
+    /// 种群中基因型的数量。
     /// </summary>
     public uint PopulationSize
     {
@@ -128,6 +150,7 @@ public class GeneticAlgorithm
 
     /// <summary>
     /// The amount of generations that have already passed.
+    /// 已经通过的几代人的数量。
     /// </summary>
     public uint GenerationCount
     {
@@ -137,6 +160,7 @@ public class GeneticAlgorithm
 
     /// <summary>
     /// Whether the current population shall be sorted before calling the termination criterion operator.
+    /// 在调用终止标准操作符之前，是否应该对当前的人口进行排序。
     /// </summary>
     public bool SortPopulation
     {
@@ -146,6 +170,7 @@ public class GeneticAlgorithm
 
     /// <summary>
     /// Whether the genetic algorithm is currently running.
+    /// 遗传算法是否正在运行。
     /// </summary>
     public bool Running
     {
@@ -155,11 +180,13 @@ public class GeneticAlgorithm
 
     /// <summary>
     /// Event for when the algorithm is eventually terminated.
+    /// 当算法最终被终止的时候。
     /// </summary>
     public event System.Action<GeneticAlgorithm> AlgorithmTerminated;
     /// <summary>
     /// Event for when the algorithm has finished fitness calculation. Given parameter is the
     /// current population sorted by fitness if sorting is enabled (see <see cref="SortPopulation"/>).
+    /// 当算法完成了适合度的计算时。给定参数是当前按适合度排序的人群如果排序是启用的
     /// </summary>
     public event System.Action<IEnumerable<Genotype>> FitnessCalculationFinished;
 
@@ -167,6 +194,7 @@ public class GeneticAlgorithm
 
     #region Constructors
     /// <summary>
+    /// 初始化一个新的遗传算法实例，用给定参数的基因型来创建给定大小的初始种群。
     /// Initialises a new genetic algorithm instance, creating a initial population of given size with genotype
     /// of given parameter count.
     /// </summary>
@@ -204,17 +232,21 @@ public class GeneticAlgorithm
     public void EvaluationFinished()
     {
         //Calculate fitness from evaluation
+        //计算适应度的评价
         FitnessCalculationMethod(currentPopulation);
 
         //Sort population if flag was set
+        //如果设置了标志，就可以进行排序
         if (SortPopulation)
             currentPopulation.Sort();
 
         //Fire fitness calculation finished event
+        //火灾健身计算结束事件
         if (FitnessCalculationFinished != null)
             FitnessCalculationFinished(currentPopulation);
 
         //Check termination criterion
+        //检查终止准则
         if (TerminationCriterion != null && TerminationCriterion(currentPopulation))
         {
             Terminate();
@@ -222,16 +254,19 @@ public class GeneticAlgorithm
         }
 
         //Apply Selection
+        //应用选择,将上一轮走的最远的三个车子数据保存（默认方式）
         List<Genotype> intermediatePopulation = Selection(currentPopulation);
 
         //Apply Recombination
+        //应用复合
         List<Genotype> newPopulation = Recombination(intermediatePopulation, PopulationSize);
 
         //Apply Mutation
+        //应用突变
         Mutation(newPopulation);
 
-        
         //Set current population to newly generated one and start evaluation again
+        //将当前的人口设置为新生成的，并重新开始评估
         currentPopulation = newPopulation;
         GenerationCount++;
 
@@ -248,6 +283,7 @@ public class GeneticAlgorithm
     #region Static Methods
     #region Default Operators
     /// <summary>
+    /// 通过将每个参数设置为默认值的一个随机值来初始化种群。
     /// Initialises the population by setting each parameter to a random value in the default range.
     /// </summary>
     /// <param name="population">The population to be initialised.</param>
@@ -264,6 +300,7 @@ public class GeneticAlgorithm
     }
 
     /// <summary>
+    /// 根据公式计算每个基因型的适应性:健康=评价/平均评估。
     /// Calculates the fitness of each genotype by the formula: fitness = evaluation / averageEvaluation.
     /// </summary>
     /// <param name="currentPopulation">The current population.</param>
@@ -286,6 +323,7 @@ public class GeneticAlgorithm
     }
 
     /// <summary>
+    /// 只选择当前种群中最好的三种基因型，并将它们复制到中间种群中。
     /// Only selects the best three genotypes of the current population and copies them to the intermediate population.
     /// </summary>
     /// <param name="currentPopulation">The current population.</param>
@@ -301,6 +339,7 @@ public class GeneticAlgorithm
     }
 
     /// <summary>
+    /// 简单地将第一个基因与第二个基因型的中间人群杂交，直到新种群的数量达到预期的大小。
     /// Simply crosses the first with the second genotype of the intermediate population until the new 
     /// population is of desired size.
     /// </summary>
@@ -325,6 +364,7 @@ public class GeneticAlgorithm
     }
 
     /// <summary>
+    /// 简单地用默认突变概率和数量突变每个基因型。
     /// Simply mutates each genotype with the default mutation probability and amount.
     /// </summary>
     /// <param name="newPopulation">The mutated new population.</param>
@@ -339,6 +379,9 @@ public class GeneticAlgorithm
     #endregion
 
     #region Recombination Operators
+    /// <summary>
+    /// 完整的交叉
+    /// </summary>
     public static void CompleteCrossover(Genotype parent1, Genotype parent2, float swapChance, out Genotype offspring1, out Genotype offspring2)
     {
         //Initialise new parameter vectors
@@ -369,6 +412,7 @@ public class GeneticAlgorithm
 
     #region Mutation Operators
     /// <summary>
+    /// 通过在每个参数中增加一个随机值，在每个参数上增加一个随机值，从而改变给定的基因型。
     /// Mutates the given genotype by adding a random value in range [-mutationAmount, mutationAmount] to each parameter with a probability of mutationProb.
     /// </summary>
     /// <param name="genotype">The genotype to be mutated.</param>

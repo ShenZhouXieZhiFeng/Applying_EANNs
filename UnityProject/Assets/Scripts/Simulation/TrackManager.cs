@@ -269,6 +269,13 @@ public class TrackManager : MonoBehaviour
 
     // Calculates the completion percentage of given car with given completed last checkpoint.
     // This method will update the given checkpoint index accordingly to the current position.
+    /// <summary>
+    /// 计算给定车辆的完成百分比，并完成最后一个检查点。
+    /// 该方法将根据当前位置更新给定的检查点索引。
+    /// </summary>
+    /// <param name="car"></param>
+    /// <param name="curCheckpointIndex"></param>
+    /// <returns></returns>
     private float GetCompletePerc(CarController car, ref uint curCheckpointIndex)
     {
         //Already all checkpoints captured

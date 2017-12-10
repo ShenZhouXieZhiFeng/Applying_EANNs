@@ -6,12 +6,14 @@ using System;
 #endregion
 
 /// <summary>
+/// 类代表一个完全连接的前馈神经网络。
 /// Class representing a fully connceted feedforward neural network.
 /// </summary>
 public class NeuralNetwork
 {
     #region Members
     /// <summary>
+    /// 这个网络的各个神经层。
     /// The individual neural layers of this network.
     /// </summary>
     public NeuralLayer[] Layers
@@ -21,6 +23,7 @@ public class NeuralNetwork
     }
 
     /// <summary>
+    /// 一组无符号整数，表示网络从输入到输出层的每一层的节点数。
     /// An array of unsigned integers representing the node count 
     /// of each layer of the network from input to output layer.
     /// </summary>
@@ -31,6 +34,7 @@ public class NeuralNetwork
     }
 
     /// <summary>
+    /// 网络连接的总重量。
     /// The amount of overall weights of the connections of this network.
     /// </summary>
     public int WeightCount
@@ -42,6 +46,7 @@ public class NeuralNetwork
 
     #region Constructors
     /// <summary>
+    /// 在给定的拓扑结构下，初始化一个全新的全连通前馈神经网络。
     /// Initialises a new fully connected feedforward neural network with given topology.
     /// </summary>
     /// <param name="topology">An array of unsigned integers representing the node count of each layer from input to output layer.</param>
@@ -63,6 +68,7 @@ public class NeuralNetwork
 
     #region Methods
     /// <summary>
+    /// 使用当前网络的权重处理给定的输入。
     /// Processes the given inputs using the current network's weights.
     /// </summary>
     /// <param name="inputs">The inputs to be processed.</param>
@@ -83,6 +89,7 @@ public class NeuralNetwork
     }
 
     /// <summary>
+    /// 将该网络的权重设置为给定范围内的随机值。
     /// Sets the weights of this network to random values in given range.
     /// </summary>
     /// <param name="minValue">The minimum value a weight may be set to.</param>
@@ -97,6 +104,7 @@ public class NeuralNetwork
     }
 
     /// <summary>
+    /// 返回一个新的神经网络实例，该实例具有相同的拓扑和激活函数，但是权重设置为它们的默认值。
     /// Returns a new NeuralNetwork instance with the same topology and 
     /// activation functions, but the weights set to their default value.
     /// </summary>
@@ -110,6 +118,7 @@ public class NeuralNetwork
     }
 
     /// <summary>
+    /// 复制这个神经网络，包括它的拓扑和权重。
     /// Copies this NeuralNetwork including its topology and weights.
     /// </summary>
     /// <returns>A deep copy of this NeuralNetwork</returns>
@@ -123,6 +132,7 @@ public class NeuralNetwork
     }
 
     /// <summary>
+    /// 返回一个以层序表示这个网络的字符串。
     /// Returns a string representing this network in layer order.
     /// </summary>
     public override string ToString()

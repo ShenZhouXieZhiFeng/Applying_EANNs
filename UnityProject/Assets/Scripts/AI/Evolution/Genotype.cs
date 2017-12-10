@@ -10,6 +10,7 @@ using System.Text;
 #endregion
 
 /// <summary>
+/// 代表一个群体中的一个成员
 /// Class representing one member of a population
 /// </summary>
 public class Genotype : IComparable<Genotype>, IEnumerable<float>
@@ -18,6 +19,7 @@ public class Genotype : IComparable<Genotype>, IEnumerable<float>
     private static Random randomizer = new Random();
 
     /// <summary>
+    /// 目前对这种基因型的评估。
     /// The current evaluation of this genotype.
     /// </summary>
     public float Evaluation

@@ -13,6 +13,7 @@ public static class MathHelper
     #region Methods
     #region Activation Functions
     /// <summary>
+    /// 标准的s形的函数。
     /// The standard sigmoid function.
     /// </summary>
     /// <param name="xValue">The input value.</param>

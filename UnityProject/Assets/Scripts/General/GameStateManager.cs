@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 #endregion
 
 /// <summary>
+/// 管理整个模拟的单例
 /// Singleton class managing the overall simulation.
 /// </summary>
 public class GameStateManager : MonoBehaviour
@@ -49,10 +50,10 @@ public class GameStateManager : MonoBehaviour
         Instance = this;
 
         //Load gui scene
-        SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
 
         //Load track
-        SceneManager.LoadScene(TrackName, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(TrackName, LoadSceneMode.Additive);
     }
 
     void Start ()
@@ -64,6 +65,10 @@ public class GameStateManager : MonoBehaviour
 
     #region Methods
     // Callback method for when the best car has changed.
+    /// <summary>
+    /// 当最好的汽车发生改变时，回调方法。
+    /// </summary>
+    /// <param name="bestCar"></param>
     private void OnBestCarChanged(CarController bestCar)
     {
         if (bestCar == null)
