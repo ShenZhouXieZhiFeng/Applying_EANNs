@@ -226,16 +226,19 @@ public class GeneticAlgorithm
     public void Start()
     {
         Running = true;
-
+        //初始化种群,随机参数
         InitialisePopulation(currentPopulation);
-
+        //评估当前人口,根据之前绑定的评估方法
         Evaluation(currentPopulation);
     }
 
+    /// <summary>
+    /// 当所有的智能都死亡
+    /// </summary>
     public void EvaluationFinished()
     {
         //Calculate fitness from evaluation
-        //计算适应度的评价
+        //计算适应度的评价，针对所有的基因型
         FitnessCalculationMethod(currentPopulation);
 
         //Sort population if flag was set
@@ -244,14 +247,15 @@ public class GeneticAlgorithm
             currentPopulation.Sort();
 
         //Fire fitness calculation finished event
-        //火灾健身计算结束事件
+        //根据健壮性进行排序
         if (FitnessCalculationFinished != null)
             FitnessCalculationFinished(currentPopulation);
 
         //Check termination criterion
-        //检查终止准则
+        //检查终止准则，比如遗传次数是否达到最大值
         if (TerminationCriterion != null && TerminationCriterion(currentPopulation))
         {
+            //停止传代
             Terminate();
             return;
         }
@@ -273,6 +277,7 @@ public class GeneticAlgorithm
         currentPopulation = newPopulation;
         GenerationCount++;
 
+        //启动新的遗传
         Evaluation(currentPopulation);
     }
 
@@ -293,6 +298,7 @@ public class GeneticAlgorithm
     public static void DefaultPopulationInitialisation(IEnumerable<Genotype> population)
     {
         //Set parameters to random values in set range
+        //将参数设置为设置范围中的随机值
         foreach (Genotype genotype in population)
             genotype.SetRandomParameters(DefInitParamMin, DefInitParamMax);
     }
@@ -310,6 +316,7 @@ public class GeneticAlgorithm
     public static void DefaultFitnessCalculation(IEnumerable<Genotype> currentPopulation)
     {
         //First calculate average evaluation of whole population
+        //首先计算所有智能的平均评价(评价在遍历车辆时被更新)
         uint populationSize = 0;
         float overallEvaluation = 0;
         foreach (Genotype genotype in currentPopulation)
@@ -317,10 +324,11 @@ public class GeneticAlgorithm
             overallEvaluation += genotype.Evaluation;
             populationSize++;
         }
-
+        //评价评价
         float averageEvaluation = overallEvaluation / populationSize;
 
         //Now assign fitness with formula fitness = evaluation / averageEvaluation
+        //现在用公式的适应性来分配健康度=评估/平均评估
         foreach (Genotype genotype in currentPopulation)
             genotype.Fitness = genotype.Evaluation / averageEvaluation;
     }
@@ -333,6 +341,7 @@ public class GeneticAlgorithm
     /// <returns>The intermediate population.</returns>
     public static List<Genotype> DefaultSelectionOperator(List<Genotype> currentPopulation)
     {
+        //直接取健壮性最高的前三个基因型
         List<Genotype> intermediatePopulation = new List<Genotype>();
         intermediatePopulation.Add(currentPopulation[0]);
         intermediatePopulation.Add(currentPopulation[1]);
@@ -351,18 +360,18 @@ public class GeneticAlgorithm
     public static List<Genotype> DefaultRecombinationOperator(List<Genotype> intermediatePopulation, uint newPopulationSize)
     {
         if (intermediatePopulation.Count < 2) throw new ArgumentException("Intermediate population size must be greater than 2 for this operator.");
-
+        //生成新的基因型
         List<Genotype> newPopulation = new List<Genotype>();
         while (newPopulation.Count < newPopulationSize)
         {
             Genotype offspring1, offspring2;
+            //将基因0和1，交换参数，进行叉乘操作，返回两个新的基因型
             CompleteCrossover(intermediatePopulation[0], intermediatePopulation[1], DefCrossSwapProb, out offspring1, out offspring2);
-
+            //将新的基因型进行保存
             newPopulation.Add(offspring1);
             if (newPopulation.Count < newPopulationSize)
                 newPopulation.Add(offspring2);
         }
-
         return newPopulation;
     }
 
@@ -388,12 +397,15 @@ public class GeneticAlgorithm
     public static void CompleteCrossover(Genotype parent1, Genotype parent2, float swapChance, out Genotype offspring1, out Genotype offspring2)
     {
         //Initialise new parameter vectors
+        //初始化新的参数矩阵
         int parameterCount = parent1.ParameterCount;
         float[] off1Parameters = new float[parameterCount], off2Parameters = new float[parameterCount];
 
         //Iterate over all parameters randomly swapping
+        //遍历所有参数，随机交换
         for (int i = 0; i < parameterCount; i++)
         {
+            //如果生成的随机数小于交换参考值，则进行交换
             if (randomizer.Next() < swapChance)
             {
                 //Swap parameters
@@ -402,12 +414,13 @@ public class GeneticAlgorithm
             }
             else
             {
+                //不进行交换，直接遗传到子基因
                 //Don't swap parameters
                 off1Parameters[i] = parent1[i];
                 off2Parameters[i] = parent2[i];
             }
         }
-
+        //根据新的参数矩阵生成新的基于型
         offspring1 = new Genotype(off1Parameters);
         offspring2 = new Genotype(off2Parameters);
     }
@@ -423,11 +436,14 @@ public class GeneticAlgorithm
     /// <param name="mutationAmount">A parameter may be mutated by an amount in range [-mutationAmount, mutationAmount].</param>
     public static void MutateGenotype(Genotype genotype, float mutationProb, float mutationAmount)
     {
+        //mutationProb 一个参数被突变的概率
+        //mutationAmount 默认的变异参数
         for (int i = 0; i < genotype.ParameterCount; i++)
         {
             if (randomizer.NextDouble() < mutationProb)
             {
                 //Mutate by random amount in range [-mutationAmount, mutationAmoun]
+                //控制变异后的参数在一定的量内
                 genotype[i] += (float)(randomizer.NextDouble() * (mutationAmount * 2) - mutationAmount);
             }    
         } 

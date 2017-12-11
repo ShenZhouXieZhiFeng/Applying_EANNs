@@ -31,6 +31,7 @@ public class CarController : MonoBehaviour
     private const float MAX_CHECKPOINT_DELAY = 7;
 
     /// <summary>
+    /// 这款车的潜在人工智能
     /// The underlying AI agent of this car.
     /// </summary>
     public Agent Agent
@@ -77,6 +78,9 @@ public class CarController : MonoBehaviour
     }
 
     private Sensor[] sensors;
+    /// <summary>
+    /// 距离上一次检查点的时间
+    /// </summary>
     private float timeSinceLastCheckpoint;
     #endregion
 
@@ -105,11 +109,12 @@ public class CarController : MonoBehaviour
     {
         Movement.enabled = true;
         timeSinceLastCheckpoint = 0;
-
+        //显示所有的传感器
         foreach (Sensor s in sensors)
             s.Show();
-
+        //重置智能
         Agent.Reset();
+        //启用
         this.enabled = true;
     }
 
@@ -123,17 +128,20 @@ public class CarController : MonoBehaviour
     void FixedUpdate()
     {
         //Get control inputs from Agent
+        //从智能从获取控制输入
         if (!UseUserInput)
         {
             //Get readings from sensors
+            //获取传感器的参数,5个传感器的长度
             double[] sensorOutput = new double[sensors.Length];
             for (int i = 0; i < sensors.Length; i++)
                 sensorOutput[i] = sensors[i].Output;
-
+            //神经网络处理，输出新的控制
             double[] controlInputs = Agent.FNN.ProcessInputs(sensorOutput);
+            //车辆制动
             Movement.SetInputs(controlInputs);
         }
-
+        //如果在一定时间内没有再更新检查点，则设置车辆死亡
         if (timeSinceLastCheckpoint > MAX_CHECKPOINT_DELAY)
         {
             Die();
@@ -143,13 +151,16 @@ public class CarController : MonoBehaviour
     // Makes this car die (making it unmovable and stops the Agent from calculating the controls for the car).
     private void Die()
     {
+        //禁用该车
         this.enabled = false;
+        //停止移动
         Movement.Stop();
+        //禁用移动组件
         Movement.enabled = false;
-
+        //隐藏所有的传感器
         foreach (Sensor s in sensors)
             s.Hide();
-
+        //通知智能停止
         Agent.Kill();
     }
 

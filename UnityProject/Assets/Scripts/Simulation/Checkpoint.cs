@@ -13,6 +13,7 @@ public class Checkpoint : MonoBehaviour
 {
     #region Members
     /// <summary>
+    /// 这个检查点可以被捕获的统一单位的半径。
     /// The radius in Unity units in which this checkpoint can be captured.
     /// </summary>
     public float CaptureRadius = 3;
@@ -73,6 +74,7 @@ public class Checkpoint : MonoBehaviour
 
     #region Methods
     /// <summary>
+    /// 计算给定距离到这个检查点所获得的奖励。
     /// Calculates the reward earned for the given distance to this checkpoint.
     /// </summary>
     /// <param name="currentDistance">The distance to this checkpoint.</param>

@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Genotype">
+    <Position X="5.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAAggAEgAAAAABSAiAAAAAAAAAAAAAAEAAAAAACAEAg=</HashCode>
+      <FileName>Assets\Scripts\AI\Evolution\Genotype.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.138" />
+  </Class>
+  <Class Name="GeneticAlgorithm">
+    <Position X="3" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="GeneticAlgorithm.InitialisationOperator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="GeneticAlgorithm.EvaluationOperator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="GeneticAlgorithm.FitnessCalculation" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="GeneticAlgorithm.SelectionOperator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="GeneticAlgorithm.RecombinationOperator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="GeneticAlgorithm.MutationOperator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="GeneticAlgorithm.CheckTerminationCriterion" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>KAABpAAAACAAAQARIARGRCAAqSICIAAIAAAEAAEAQAE=</HashCode>
+      <FileName>Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EvolutionManager">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CAQBICCQQAAAgQAAAABAEAgBAAEggAEAVAAIAAEAAkI=</HashCode>
+      <FileName>Assets\Scripts\AI\Evolution\EvolutionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralLayer">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="NeuralLayer.ActivationFunction">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AI\NeuralNetworks\NeuralLayer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAIQEAAEAAAAACAAIAAAAAEAAAAAEEAA=</HashCode>
+      <FileName>Assets\Scripts\AI\NeuralNetworks\NeuralLayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NeuralNetwork">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIQEAAAAAAAAAAAIAAAEAAAQAAAAEAA=</HashCode>
+      <FileName>Assets\Scripts\AI\NeuralNetworks\NeuralNetwork.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManager">
+    <Position X="5.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABACAAIAABAAAAAAAAAAAAAAAAQAAgAAAAgEA=</HashCode>
+      <FileName>Assets\Scripts\General\GameStateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MathHelper">
+    <Position X="7.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\General\MathHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrackManager">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="TrackManager.RaceCar" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Simulation\TrackManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>MAYBAAAiQDAAAhAAAAABBQAAAAgkIAAAQAAgAAAAAUA=</HashCode>
+      <FileName>Assets\Scripts\Simulation\TrackManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Agent">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAEAABAQAAEAAAAAAAAQAAAAAAAAAAAUAAAA=</HashCode>
+      <FileName>Assets\Scripts\AI\Agent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

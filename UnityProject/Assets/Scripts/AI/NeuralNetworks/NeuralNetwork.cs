@@ -79,16 +79,17 @@ public class NeuralNetwork
     public double[] ProcessInputs(double[] inputs)
     {
         //Check arguments
+        //传感器的个数需要等于神经层第一层的神经元数量
         if (inputs.Length != Layers[0].NeuronCount)
             throw new ArgumentException("Given inputs do not match network input amount.");
 
         //Process inputs by propagating values through all layers
+        //将合法的传感器值层层传递，处理数值
         double[] outputs = inputs;
         foreach (NeuralLayer layer in Layers)
             outputs = layer.ProcessInputs(outputs);
 
         return outputs;
-        
     }
 
     /// <summary>

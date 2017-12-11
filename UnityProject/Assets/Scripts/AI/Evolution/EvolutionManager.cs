@@ -73,6 +73,9 @@ public class EvolutionManager : MonoBehaviour
     /// </summary>
     public event System.Action AllAgentsDied;
 
+    /// <summary>
+    /// 持有遗传算法
+    /// </summary>
     private GeneticAlgorithm geneticAlgorithm;
 
     /// <summary>
@@ -156,7 +159,7 @@ public class EvolutionManager : MonoBehaviour
             geneticAlgorithm.TerminationCriterion += CheckGenerationTermination;
             geneticAlgorithm.AlgorithmTerminated += OnGATermination;
         }
-        //重新执行遗传算法
+        //执行遗传算法
         geneticAlgorithm.Start();
     }
 
@@ -254,13 +257,15 @@ public class EvolutionManager : MonoBehaviour
     {
         //Create new agents from currentPopulation
         //从上一代的人口中创建新的人口代理
+        //清空所有的车辆智能
         agents.Clear();
         AgentsAliveCount = 0;
-
+        //从基因型中重新生成车辆智能
         foreach (Genotype genotype in currentPopulation)
             agents.Add(new Agent(genotype, MathHelper.SoftSignFunction, FNNTopology));
-
+        //根据生成的智能数量，重新生成实体（小车）
         TrackManager.Instance.SetCarAmount(agents.Count);
+        //遍历车辆和智能，为车辆赋予智能
         IEnumerator<CarController> carsEnum = TrackManager.Instance.GetCarEnumerator();
         for (int i = 0; i < agents.Count; i++)
         {
@@ -272,9 +277,10 @@ public class EvolutionManager : MonoBehaviour
 
             carsEnum.Current.Agent = agents[i];
             AgentsAliveCount++;
+            //指定死亡回调
             agents[i].AgentDied += OnAgentDied;
         }
-
+        //重新启动
         TrackManager.Instance.Restart();
     }
 
@@ -286,7 +292,7 @@ public class EvolutionManager : MonoBehaviour
     private void OnAgentDied(Agent agent)
     {
         AgentsAliveCount--;
-
+        //当所有的智能都死亡时
         if (AgentsAliveCount == 0 && AllAgentsDied != null)
             AllAgentsDied();
     }
@@ -378,8 +384,10 @@ public class EvolutionManager : MonoBehaviour
     /// <param name="newPopulation"></param>
     private void MutateAllButBestTwo(List<Genotype> newPopulation)
     {
+        //遍历新基因型
         for (int i = 2; i < newPopulation.Count; i++)
         {
+            //根据比较随机值和遗传的突变率进行突变操作
             if (randomizer.NextDouble() < GeneticAlgorithm.DefMutationPerc)
                 GeneticAlgorithm.MutateGenotype(newPopulation[i], GeneticAlgorithm.DefMutationProb, GeneticAlgorithm.DefMutationAmount);
         }

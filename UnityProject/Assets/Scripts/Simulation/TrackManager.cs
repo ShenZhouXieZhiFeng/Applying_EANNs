@@ -38,6 +38,9 @@ public class TrackManager : MonoBehaviour
     private Quaternion startRotation;
 
     // Struct for storing the current cars and their position on the track.
+    /// <summary>
+    /// 用于存储当前车辆及其位置的结构体
+    /// </summary>
     private class RaceCar
     {
         public RaceCar(CarController car = null, uint checkpointIndex = 1)
@@ -46,6 +49,9 @@ public class TrackManager : MonoBehaviour
             this.CheckpointIndex = checkpointIndex;
         }
         public CarController Car;
+        /// <summary>
+        /// 到达的检查点的个数，用来评估这辆车的主要参数
+        /// </summary>
         public uint CheckpointIndex;
     }
     private List<RaceCar> cars = new List<RaceCar>();
@@ -167,16 +173,20 @@ public class TrackManager : MonoBehaviour
     void Update()
     {
         //Update reward for each enabled car on the track
+        //更新每一辆车的参数
         for (int i = 0; i < cars.Count; i++)
         {
             RaceCar car = cars[i];
             if (car.Car.enabled)
             {
+                //设置对这辆车的评估值
                 car.Car.CurrentCompletionReward = GetCompletePerc(car.Car, ref car.CheckpointIndex);
 
                 //Update best
+                //根据车辆评估更新最优车辆
                 if (BestCar == null || car.Car.CurrentCompletionReward >= BestCar.CurrentCompletionReward)
                     BestCar = car.Car;
+                //更新第二名车辆
                 else if (SecondBestCar == null || car.Car.CurrentCompletionReward >= SecondBestCar.CurrentCompletionReward)
                     SecondBestCar = car.Car;
             }
@@ -217,10 +227,12 @@ public class TrackManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 重新启动所有的汽车，并把它们放在轨道上。
     /// Restarts all cars and puts them at the track start.
     /// </summary>
     public void Restart()
     {
+        //重置所有车辆
         foreach (RaceCar car in cars)
         {
             car.Car.transform.position = startPosition;
@@ -228,7 +240,6 @@ public class TrackManager : MonoBehaviour
             car.Car.Restart();
             car.CheckpointIndex = 1;
         }
-
         BestCar = null;
         SecondBestCar = null;
     }
@@ -279,22 +290,29 @@ public class TrackManager : MonoBehaviour
     private float GetCompletePerc(CarController car, ref uint curCheckpointIndex)
     {
         //Already all checkpoints captured
+        //如果通过了所有的检查点
         if (curCheckpointIndex >= checkpoints.Length)
             return 1;
 
         //Calculate distance to next checkpoint
+        //计算到下一个检查点的距离
         float checkPointDistance = Vector2.Distance(car.transform.position, checkpoints[curCheckpointIndex].transform.position);
 
         //Check if checkpoint can be captured
+        //判断该检查点是否为可通过
         if (checkPointDistance <= checkpoints[curCheckpointIndex].CaptureRadius)
         {
+            //当前检查点+1
             curCheckpointIndex++;
+            //通过车辆检查点被更新，清空时间计时
             car.CheckpointCaptured(); //Inform car that it captured a checkpoint
+            //计算总的完成情况
             return GetCompletePerc(car, ref curCheckpointIndex); //Recursively check next checkpoint
         }
         else
         {
             //Return accumulated reward of last checkpoint + reward of distance to next checkpoint
+            //返回最后一个检查点的累积奖励和距离到下一个检查点的奖励
             return checkpoints[curCheckpointIndex - 1].AccumulatedReward + checkpoints[curCheckpointIndex].GetRewardValue(checkPointDistance);
         }
     }

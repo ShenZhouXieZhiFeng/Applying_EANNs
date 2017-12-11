@@ -108,7 +108,7 @@ public class NeuralLayer
     }
 
     /// <summary>
-    /// 使用当前权重对下一层进行处理。
+    /// 使用当前权重矩阵对上一层输入的参数做处理，并传递给下一层
     /// Processes the given inputs using the current weights to the next layer.
     /// </summary>
     /// <param name="inputs">The inputs to be processed.</param>
@@ -123,11 +123,12 @@ public class NeuralLayer
         //计算每个神经元的加权输入和偏差
         double[] sums = new double[OutputCount];
         //Add bias (always on) neuron to inputs
-        //添加偏倚(总是在)神经元输入
+        //在神经原的输入出添加偏斜,有点像将数据坐标转换成其次坐标
         double[] biasedInputs = new double[NeuronCount + 1];
         inputs.CopyTo(biasedInputs, 0);
         biasedInputs[inputs.Length] = 1.0;
 
+        //输入偏移矩阵右乘权重矩阵
         for (int j = 0; j < this.Weights.GetLength(1); j++)
             for (int i = 0; i < this.Weights.GetLength(0); i++)
                 sums[j] += biasedInputs[i] * Weights[i, j];

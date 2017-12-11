@@ -38,6 +38,9 @@ public static class MathHelper
     }
 
     /// <summary>
+    /// 软签名功能，激励函数 
+    /// https://zhuanlan.zhihu.com/p/24812542?refer=morvan
+    /// http://blog.csdn.net/hyman_yx/article/details/51789186
     /// The SoftSign function as proposed by Xavier Glorot and Yoshua Bengio (2010): 
     /// "Understanding the difficulty of training deep feedforward neural networks".
     /// </summary>

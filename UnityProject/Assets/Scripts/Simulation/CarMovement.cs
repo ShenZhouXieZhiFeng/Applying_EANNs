@@ -68,10 +68,11 @@ public class CarMovement : MonoBehaviour
         if (controller != null && controller.UseUserInput)
             CheckInput();
 
+        //应用当前设置的输入,设置车辆的速度和旋转值
         ApplyInput();
-
+        //应用车辆速度值和旋转值，设置到车辆上
         ApplyVelocity();
-
+        //应用摩擦力
         ApplyFriction();
 	}
 
@@ -83,9 +84,10 @@ public class CarMovement : MonoBehaviour
     }
 
     // Applies the currently set input
+    //应用当前设置的输入
     private void ApplyInput()
     {
-        //Cap input 
+        //Cap input 裁剪输入参数到合法值 
         if (verticalInput > 1)
             verticalInput = 1;
         else if (verticalInput < -1)
@@ -97,6 +99,7 @@ public class CarMovement : MonoBehaviour
             horizontalInput = -1;
 
         //Car can only accelerate further if velocity is lower than engineForce * MAX_VEL
+        //如果速度低于工程量，汽车只能进一步加速
         bool canAccelerate = false;
         if (verticalInput < 0)
             canAccelerate = Velocity > verticalInput * MAX_VEL;
@@ -104,6 +107,7 @@ public class CarMovement : MonoBehaviour
             canAccelerate = Velocity < verticalInput * MAX_VEL;
         
         //Set velocity
+        //设置速度参数，控制车辆最大速度
         if (canAccelerate)
         {
             Velocity += (float)verticalInput * ACCELERATION * Time.deltaTime;
@@ -116,6 +120,7 @@ public class CarMovement : MonoBehaviour
         }
         
         //Set rotation
+        //设置旋转
         Rotation = transform.rotation;
         Rotation *= Quaternion.AngleAxis((float)-horizontalInput * TURN_SPEED * Time.deltaTime, new Vector3(0, 0, 1));
     }
@@ -126,11 +131,14 @@ public class CarMovement : MonoBehaviour
     /// <param name="input">The inputs for turning and engine force in this order.</param>
     public void SetInputs(double[] input)
     {
+        //水平输入，控制旋转
         horizontalInput = input[0];
+        //垂直输入，控制速度
         verticalInput = input[1];
     }
 
     // Applies the current velocity to the position of the car.
+    //将当前的速度应用到汽车的位置。
     private void ApplyVelocity()
     {
         Vector3 direction = new Vector3(0, 1, 0);
@@ -143,6 +151,8 @@ public class CarMovement : MonoBehaviour
     // Applies some friction to velocity
     private void ApplyFriction()
     {
+        //如果输入的车速为0，并且当前的速度大于0，需要将速度减去设定的摩擦力
+        //最终让车速稳定在0
         if (verticalInput == 0)
         {
             if (Velocity > 0)

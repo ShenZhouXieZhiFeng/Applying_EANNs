@@ -10,7 +10,7 @@ using System.Text;
 #endregion
 
 /// <summary>
-/// 代表一个群体中的一个成员
+/// 基因型，代表一个群体中的一个成员
 /// Class representing one member of a population
 /// </summary>
 public class Genotype : IComparable<Genotype>, IEnumerable<float>
@@ -28,6 +28,7 @@ public class Genotype : IComparable<Genotype>, IEnumerable<float>
         set;
     }
     /// <summary>
+    /// 当前健身(e。g，这个基因型的相对于整个种群的平均评价的评价)这个基因型。
     /// The current fitness (e.g, the evaluation of this genotype relative 
     /// to the average evaluation of the whole population) of this genotype.
     /// </summary>
@@ -38,9 +39,11 @@ public class Genotype : IComparable<Genotype>, IEnumerable<float>
     }
 
     // The vector of parameters of this genotype.
+    //这个基因型的参数矢量
     private float[] parameters;
 
     /// <summary>
+    /// 在这个基因型的参数向量中存储的参数数量。
     /// The amount of parameters stored in the parameter vector of this genotype.
     /// </summary>
     public int ParameterCount
@@ -53,6 +56,7 @@ public class Genotype : IComparable<Genotype>, IEnumerable<float>
     }
 
     // Overridden indexer for convenient parameter access.
+    //为了方便的参数访问，覆盖了索引器。
     public float this[int index]
     {
         get { return parameters[index]; }
@@ -117,6 +121,7 @@ public class Genotype : IComparable<Genotype>, IEnumerable<float>
         if (minValue > maxValue) throw new ArgumentException("Minimum value may not exceed maximum value.");
 
         //Generate random parameter vector
+        //生成随机参数向量
         float range = maxValue - minValue;
         for (int i = 0; i < parameters.Length; i++)
             parameters[i] = (float)((randomizer.NextDouble() * range) + minValue); //Create a random float between minValue and maxValue

@@ -69,17 +69,23 @@ public class Agent : IComparable<Agent>
     /// <param name="topology">The topology of the feedforward neural network to be constructed from given genotype.</param>
     public Agent(Genotype genotype, NeuralLayer.ActivationFunction defaultActivation, params uint[] topology)
     {
+        //1.基因型 2.前馈神经网络（多层）
         IsAlive = false;
+        //设定基因型（基因型=评估+参数矢量）
         this.Genotype = genotype;
+        //生成前馈神经网络，一个智能包含一个神经网络
         FNN = new NeuralNetwork(topology);
+        //指定该神经网络每一层的激活函数
         foreach (NeuralLayer layer in FNN.Layers)
             layer.NeuronActivationFunction = defaultActivation;
 
-        //Check if topology is valid
+        //Check if topology is valid 
+        //检查拓扑是否有效
         if (FNN.WeightCount != genotype.ParameterCount)
             throw new ArgumentException("The given genotype's parameter count must match the neural network topology's weight count.");
 
         //Construct FNN from genotype
+        //从基因型构造模糊神经网络
         IEnumerator<float> parameters = genotype.GetEnumerator();
         foreach (NeuralLayer layer in FNN.Layers) //Loop over all layers
         {
@@ -101,8 +107,11 @@ public class Agent : IComparable<Agent>
     /// </summary>
     public void Reset()
     {
+        //评估 = 0
         Genotype.Evaluation = 0;
+        //健壮性
         Genotype.Fitness = 0;
+        //启用智能
         IsAlive = true;
     }
 

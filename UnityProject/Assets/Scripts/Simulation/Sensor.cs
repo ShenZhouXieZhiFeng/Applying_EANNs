@@ -23,6 +23,7 @@ public class Sensor : MonoBehaviour
     private const float MIN_DIST = 0.01f;
 
     /// <summary>
+    /// 当前传感器读数在最大距离的百分比
     /// The current sensor readings in percent of maximum distance.
     /// </summary>
     public float Output
