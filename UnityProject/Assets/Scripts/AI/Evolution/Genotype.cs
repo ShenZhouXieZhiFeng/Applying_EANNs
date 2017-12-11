@@ -62,9 +62,10 @@ public class Genotype : IComparable<Genotype>, IEnumerable<float>
 
     #region Constructors
     /// <summary>
+    /// 一个新的基因型与给定的参数向量和初始适应度为0。
     /// Instance of a new genotype with given parameter vector and initial fitness of 0.
     /// </summary>
-    /// <param name="parameters">The parameter vector to initialise this genotype with.</param>
+    /// <param name="parameters">初始化该基因型的参数向量The parameter vector to initialise this genotype with.</param>
     public Genotype(float[] parameters)
     {
         this.parameters = parameters;

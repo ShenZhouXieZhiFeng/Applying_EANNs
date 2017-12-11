@@ -52,14 +52,17 @@ public class NeuralNetwork
     /// <param name="topology">An array of unsigned integers representing the node count of each layer from input to output layer.</param>
     public NeuralNetwork(params uint[] topology)
     {
+        //确定一个完整神经网络的层数
         this.Topology = topology;
 
         //Calculate overall weight count
+        //计算总权重大小（应该是将每一层的权重矩阵的数据量都加起来）
         WeightCount = 0;
         for (int i = 0; i < topology.Length - 1; i++)
-            WeightCount += (int) ((topology[i] + 1) * topology[i + 1]); // + 1 for bias node
+            WeightCount += (int) ((topology[i] + 1) * topology[i + 1]); // + 1 for bias node（+1偏置节点）
 
         //Initialise layers
+        //初始化各神经层
         Layers = new NeuralLayer[topology.Length - 1];
         for (int i = 0; i<Layers.Length; i++)
             Layers[i] = new NeuralLayer(topology[i], topology[i + 1]);

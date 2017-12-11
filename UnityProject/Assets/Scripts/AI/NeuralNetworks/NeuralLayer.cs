@@ -73,9 +73,9 @@ public class NeuralLayer
     /// <remarks>All weights of the connections from this layer to the next are initialised with the default double value.</remarks>
     public NeuralLayer(uint nodeCount, uint outputCount)
     {
-        this.NeuronCount = nodeCount;
-        this.OutputCount = outputCount;
-
+        this.NeuronCount = nodeCount;//神经元计数
+        this.OutputCount = outputCount;//输出数
+        //初始化权重矩阵
         Weights = new double[nodeCount + 1, outputCount]; // + 1 for bias node
     }
     #endregion

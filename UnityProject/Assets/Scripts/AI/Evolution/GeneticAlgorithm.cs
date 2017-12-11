@@ -209,12 +209,15 @@ public class GeneticAlgorithm
     {
         this.PopulationSize = populationSize;
         //Initialise empty population
+        //初始化空人口,Genotype是每个被用于测试的个体
         currentPopulation = new List<Genotype>((int) populationSize);
         for (int i = 0; i < populationSize; i++)
             currentPopulation.Add(new Genotype(new float[genotypeParamCount]));
-
+        //遗传代数
         GenerationCount = 1;
+        //是否进行人口排序
         SortPopulation = true;
+        //遗传算法是否正在执行
         Running = false;
     }
     #endregion

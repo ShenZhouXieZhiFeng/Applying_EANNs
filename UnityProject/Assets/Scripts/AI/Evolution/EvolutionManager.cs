@@ -1,7 +1,5 @@
 ﻿/// Author: Samuel Arzt
 /// Date: March 2017
-
-
 #region Includes
 using UnityEngine;
 using System.Collections.Generic;
@@ -31,28 +29,28 @@ public class EvolutionManager : MonoBehaviour
     private string statisticsFileName;
 
     // How many of the first to finish the course should be saved to file, to be set in Unity Editor
-    //第一个完成课程的人应该被保存到文件中，并在Unity编辑器中设置
+    //第一个完成课程的人应该被保存到文件中
     [SerializeField]
     private uint SaveFirstNGenotype = 0;
     private uint genotypesSaved = 0;
 
     // Population size, to be set in Unity Editor
-    //在统一编辑器中设置的大小
+    // 每一代人口的规模
     [SerializeField]
     private int PopulationSize = 30;
 
     // After how many generations should the genetic algorithm be restart (0 for never), to be set in Unity Editor
-    //遗传算法需要多少代才能重新启动(永远不为0)，在Unity编辑器中设置
+    //遗传算法需要多少代才能重新启动(永远不为0)
     [SerializeField]
     private int RestartAfter = 100;
 
     // Whether to use elitist selection or remainder stochastic sampling, to be set in Unity Editor
-    //是否使用精英选择或剩余随机抽样，在统一编辑器中设置
+    //是否使用精英选择或剩余随机抽样
     [SerializeField]
     private bool ElitistSelection = false;
 
     // Topology of the agent's FNN, to be set in Unity Editor
-    //代理FNN的拓扑结构，将在Unity编辑器中设置
+    //代理FNN的拓扑结构
     [SerializeField]
     private uint[] FNNTopology;
 
@@ -115,25 +113,29 @@ public class EvolutionManager : MonoBehaviour
         geneticAlgorithm = new GeneticAlgorithm((uint) nn.WeightCount, (uint) PopulationSize);
         genotypesSaved = 0;
 
+        //设定评估人口的方法
         geneticAlgorithm.Evaluation = StartEvaluation;
 
+        //精英采样，设定哪些人口可以遗传到下一代
         if (ElitistSelection)
         {
-            //Second configuration
-            //启动演进过程第二配置
+            //选取当前人口中评价最高的三个进行遗传
             geneticAlgorithm.Selection = GeneticAlgorithm.DefaultSelectionOperator;
+            //遗传算法重组方法，插入随机因子
             geneticAlgorithm.Recombination = RandomRecombination;
+            //设定种群变异方法
+            //将新种群中的所有成员都用默认的概率进行变异，同时将前2个基因型留在列表中。
             geneticAlgorithm.Mutation = MutateAllButBestTwo;
         }
         else
         {
-            //First configuration
-            //第一次配置
+            //默认，随机采样
             geneticAlgorithm.Selection = RemainderStochasticSampling;
             geneticAlgorithm.Recombination = RandomRecombination;
             geneticAlgorithm.Mutation = MutateAllButBestTwo;
         }
         
+        //当所有的代理都死亡，进行人口评价，遗传计算，生成新人口
         AllAgentsDied += geneticAlgorithm.EvaluationFinished;
 
         //Statistics
@@ -144,6 +146,7 @@ public class EvolutionManager : MonoBehaviour
             WriteStatisticsFileStart();
             geneticAlgorithm.FitnessCalculationFinished += WriteStatisticsToFile;
         }
+        //排序，并进行保存
         geneticAlgorithm.FitnessCalculationFinished += CheckForTrackFinished;
 
         //Restart logic
@@ -153,7 +156,7 @@ public class EvolutionManager : MonoBehaviour
             geneticAlgorithm.TerminationCriterion += CheckGenerationTermination;
             geneticAlgorithm.AlgorithmTerminated += OnGATermination;
         }
-
+        //重新执行遗传算法
         geneticAlgorithm.Start();
     }
 
@@ -250,6 +253,7 @@ public class EvolutionManager : MonoBehaviour
     private void StartEvaluation(IEnumerable<Genotype> currentPopulation)
     {
         //Create new agents from currentPopulation
+        //从上一代的人口中创建新的人口代理
         agents.Clear();
         AgentsAliveCount = 0;
 
